@@ -7,10 +7,22 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  String actualModel = 'Model S';
   late UnityViewController unityViewController;
   double speed = 0.0;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {});
+  }
+
   void onUnityViewCreated(UnityViewController controller) {
+    controller.send(
+      'Init',
+      'loadModel',
+      actualModel.replaceAll(' ', '').toLowerCase(),
+    );
     setState(() {
       unityViewController = controller;
     });
@@ -35,14 +47,20 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(actualModel),
+      ),
       body: Column(
         children: [
           Expanded(
-            child: UnityView(
-              onCreated: onUnityViewCreated,
-              onReattached: onUnityViewReattached,
-              onMessage: onUnityMessageReceived,
+            child: AspectRatio(
+              aspectRatio: 1280 / 720,
+              child: UnityView(
+                onCreated: onUnityViewCreated,
+                onReattached: onUnityViewReattached,
+                onMessage: onUnityMessageReceived,
+              ),
             ),
           ),
           Flexible(
