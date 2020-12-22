@@ -8,7 +8,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   String actualModel = 'Model S';
-  late UnityViewController unityViewController;
+  UnityViewController unityViewController;
   double speed = 0.0;
 
   @override
